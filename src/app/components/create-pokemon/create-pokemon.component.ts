@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PokemonModel, RequestCreatePokemon } from 'src/shared/models/pokemon.model';
+import { RequestCreatePokemon } from 'src/shared/models/pokemon.model';
 import { DataService } from 'src/shared/services/data.service';
 
 @Component({
@@ -16,39 +16,44 @@ export class CreatePokemonComponent implements OnInit {
   constructor(
     private route: Router,
     private activatedRoute: ActivatedRoute,
-    private dataService: DataService
+    private dataService: DataService,
+    private formBuilder: FormBuilder
   ) { }
 
   
   ngOnInit(): void {
-    this.newPokemonForm = new FormGroup({
-      name: new FormControl('', Validators.required),
-      image: new FormControl('', Validators.required),
-      attack: new FormControl('', Validators.required),
-      defense: new FormControl('', Validators.required)
+    this.newPokemonForm = this.formBuilder.group({
+      name: ['', [Validators.required]],
+      image: ['', [Validators.required]],
+      attack: ['', [Validators.required, Validators.min(0), Validators.max(100)]],
+      defense: ['', [Validators.required, Validators.min(0), Validators.max(100)]]
     })
   }
 
-  onSubmit() {   
-    const newPokemon: RequestCreatePokemon = {
-      ...this.newPokemonForm.value,
-      idAuthor: 1,
-      type: 'normal',
-      hp: 0
-    };
+  onSubmit() {
+    if (this.newPokemonForm.invalid) {
+      window.alert('Por favor verifique los datos ingresados y vuelva a intentarlo')
+    } else {
+      const newPokemon: RequestCreatePokemon = {
+        ...this.newPokemonForm.value,
+        idAuthor: 1,
+        type: 'normal',
+        hp: 0
+      };
 
-    this.dataService.createPokemon(newPokemon).subscribe({
-      next: (data) => {
-        // Se creo el pokemon
-        window.alert('¡Pokemon registrado!');
-        this.goToMainPage();
-        // console.log(newPokemon);
-      },
-      error: (err: any) => {
-        // Volver a main
-        window.alert('¡Ocurrió un error, vuelva a intentarlo!');
-      }
-    });
+      this.dataService.createPokemon(newPokemon).subscribe({
+        next: (data) => {
+          // Se creo el pokemon
+          window.alert('¡Pokemon registrado!');
+          this.goToMainPage();
+          // console.log(newPokemon);
+        },
+        error: (err: any) => {
+          // Volver a main
+          window.alert('¡Ocurrió un error, vuelva a intentarlo!');
+        }
+      });
+    }
   }
 
   goToMainPage() {

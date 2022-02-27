@@ -1,6 +1,6 @@
 <div class="secondary-container">
   <p>Actualizar Pokemon</p>
-  <form [formGroup]="updatePokemonForm" (ngSubmit)="updatePokemon()" >
+  <form [formGroup]="updatePokemonForm" >
     <div class="row">
       <div class="col">
         <label>
@@ -8,38 +8,62 @@
           <input
             type="text"
             placeholder="Nombre"
-            formControlName="name"
-            required>
+            formControlName="name">
         </label>
+        <div *ngIf="updatePokemonForm.get('name').hasError('required')" class="alert alert-danger form-danger" role="alert">
+          *Campo obligatorio
+        </div>
         <label>
           <span>Imagen:</span>
           <input
             type="text"
             placeholder="Url de la imagen"
             formControlName="image"
-            required>
+            pattern="http(s?)(:\/\/)((www.)?)(([^.]+)\.)?([a-zA-z0-9\-_]+)(.com|.net|.gov|.org|.in|.store)(\/[^\s]*)?">
         </label>
+        <div *ngIf="updatePokemonForm.get('image').hasError('required')" class="alert alert-danger form-danger" role="alert">
+          *Campo obligatorio
+        </div>
+        <div *ngIf="updatePokemonForm.get('image').hasError('pattern')" class="alert alert-danger form-danger" role="alert">
+          *Debe ingresar la url de una imagen
+        </div>
       </div>
       <div class="col">
         <label>
           <span>Ataque:</span>
           <input
             type="text"
-            placeholder="Confirm your password"
-            formControlName="attack"
-            required>
+            placeholder="Valor entre 0 - 100"
+            formControlName="attack" min="0" max="100">
         </label>
+        <div *ngIf="updatePokemonForm.get('attack').hasError('required')" class="alert alert-danger form-danger" role="alert">
+          *Campo obligatorio
+        </div>
+        <div *ngIf="updatePokemonForm.get('attack').hasError('min')" class="alert alert-danger form-danger" role="alert">
+          *El valor permitido debe ser igual o superior a 0
+        </div>
+        <div *ngIf="updatePokemonForm.get('attack').hasError('max')" class="alert alert-danger form-danger" role="alert">
+          *El valor permitido debe ser igual o menor a 100
+        </div>
         <label>
           <span>Defensa:</span>
           <input
             type="text"
-            placeholder="Confirm your password"
-            formControlName="defense"
-            required>
+            placeholder="Valor entre 0 - 100"
+            formControlName="defense" min="0" max="100">
         </label>
+        <div *ngIf="updatePokemonForm.get('defense').hasError('required')" class="alert alert-danger form-danger" role="alert">
+          *Campo obligatorio
+        </div>
+        <div *ngIf="updatePokemonForm.get('defense').hasError('min')" class="alert alert-danger form-danger" role="alert">
+          *El valor permitido debe ser igual o superior a 0
+        </div>
+        <div *ngIf="updatePokemonForm.get('defense').hasError('max')" class="alert alert-danger form-danger" role="alert">
+          *El valor permitido debe ser igual o menor a 100
+        </div>
       </div>
       <div class="actions">
-        <button type="submit" class="card card-small btn-primary" tabindex="0">
+        <button (click)="updatePokemon()" class="card card-small btn-primary" tabindex="0">
           <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M7.197,16.963H7.195c-0.204,0-0.399-0.083-0.544-0.227l-6.039-6.082c-0.3-0.302-0.297-0.788,0.003-1.087 C0.919,9.266,1.404,9.269,1.702,9.57l5.495,5.536L18.221,4.083c0.301-0.301,0.787-0.301,1.087,0c0.301,0.3,0.301,0.787,0,1.087 L7.741,16.738C7.596,16.882,7.401,16.963,7.197,16.963z"/></svg>
           <span>Actualizar</span>
         </button>

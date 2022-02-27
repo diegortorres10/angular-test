@@ -8,7 +8,7 @@ import { PokemonModel, RequestCreatePokemon, RequestUpdatePokemon } from '../mod
 })
 export class DataService {
 
-  private BASE_API_URL = "https://pokemon-pichincha.herokuapp.com";
+  public BASE_API_URL = "https://pokemon-pichincha.herokuapp.com";
 
   constructor(private httpClient: HttpClient) { }
 

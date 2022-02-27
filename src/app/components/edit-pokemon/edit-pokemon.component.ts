@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { PokemonModel, RequestUpdatePokemon } from 'src/shared/models/pokemon.model';
+import { RequestUpdatePokemon } from 'src/shared/models/pokemon.model';
 import { DataService } from 'src/shared/services/data.service';
 
 @Component({
@@ -19,7 +19,8 @@ export class EditPokemonComponent implements OnInit, OnDestroy {
   constructor(
     private route: Router,
     private activatedRoute: ActivatedRoute,
-    private dataService: DataService
+    private dataService: DataService,
+    private formBuilder: FormBuilder
   ) { }
 
   ngOnInit(): void {
@@ -29,12 +30,12 @@ export class EditPokemonComponent implements OnInit, OnDestroy {
       this.getPokemonData();
     });
 
-    this.updatePokemonForm = new FormGroup({
-      name: new FormControl('', [Validators.required]),
-      image: new FormControl('', [Validators.required]),
-      attack: new FormControl('', [Validators.required]),
-      defense: new FormControl('', [Validators.required])
-    })
+    this.updatePokemonForm = this.formBuilder.group({
+      name: ['', [Validators.required]],
+      image: ['', [Validators.required]],
+      attack: ['', [Validators.required, Validators.min(0), Validators.max(100)]],
+      defense: ['', [Validators.required, Validators.min(0), Validators.max(100)]]
+    });
   }
 
   getPokemonData() {
@@ -55,22 +56,26 @@ export class EditPokemonComponent implements OnInit, OnDestroy {
   }
 
   updatePokemon() {
-    const updatePokemon: RequestUpdatePokemon = {
-      ...this.updatePokemonForm.value
-    };
-
-    this.dataService.updatePokemon(this.pokemonId, updatePokemon).subscribe({
-      next: (data) => {
-        // eliminado
-        console.log(data);
-        window.alert('¡Pokemon actualizado!');
-        this.goToMainPage();
-      },
-      error: (err: any) => {
-        // volver a main
-        window.alert('¡Ocurrió un error, vuelva a intentarlo!');
-      }
-    })
+    if (this.updatePokemonForm.invalid) {
+      window.alert('Por favor verifique los datos ingresados y vuelva a intentarlo')
+    } else {
+      const updatePokemon: RequestUpdatePokemon = {
+        ...this.updatePokemonForm.value
+      };
+  
+      this.dataService.updatePokemon(this.pokemonId, updatePokemon).subscribe({
+        next: (data) => {
+          // eliminado
+          console.log(data);
+          window.alert('¡Pokemon actualizado!');
+          this.goToMainPage();
+        },
+        error: (err: any) => {
+          // volver a main
+          window.alert('¡Ocurrió un error, vuelva a intentarlo!');
+        }
+      })
+    }
   }
 
   goToMainPage() {

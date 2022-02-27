@@ -26,8 +26,6 @@ export class DeletePokemonComponent implements OnInit, OnDestroy {
     this.subscription = this.activatedRoute.params.subscribe(params => { 
       this.pokemonId = params['id'];
       this.getPokemonData();
-      // let products = this._productService.getProducts();
-      // this.product=products.find(p => p.productID==this.id);
     });
   }
 

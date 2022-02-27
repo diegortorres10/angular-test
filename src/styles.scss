@@ -68,7 +68,7 @@ svg.material-icons:not(:last-child) {
     width: 100%;
 }
 
-input[type=text] {
+input[type=text], input[type=number] {
     width: 100%;
     padding: 12px;
     margin: 8px 0;
@@ -215,4 +215,15 @@ footer a {
 
 .actions {
     display: flex;
+}
+
+/*
+form control
+*/
+.alert {
+  text-align: left;
+  font-size: small;
+  color: #ff5252;
+  padding-left: 80px;
+  margin-top: -0.5rem;
 }
