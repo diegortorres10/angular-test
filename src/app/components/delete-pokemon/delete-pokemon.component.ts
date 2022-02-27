@@ -53,10 +53,10 @@ export class DeletePokemonComponent implements OnInit, OnDestroy {
       next: (data) => {
         // eliminado
         console.log(data);
+        window.alert('Pokemon eliminado')
         this.goToMainPage();
       },
       error: (err: any) => {
-        // volver a main
         window.alert('¡Ocurrió un error, vuelva a intentarlo!');
       }
     })

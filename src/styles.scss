@@ -116,6 +116,22 @@ input[type=text] {
     fill: rgb(105, 103, 103);
 }
 
+.btn-primary {
+    color: #fff;
+    background-color: #1976d2;
+    border-color: #125699;
+}
+
+.btn-primary:hover {
+    color: #fff;
+    background-color: #286090;
+    border-color: #204d74;
+}
+
+.btn-primary svg.material-icons path,
+.btn-primary:hover svg.material-icons path {
+    fill: #fff!important;
+}
 
 a,
 a:visited,

@@ -12,40 +12,67 @@ import { DataService } from '../shared/services/data.service';
 
 export class AppComponent implements OnInit {
   title = 'Listado de Pokemon';
-  search: FormGroup;
+  searchForm: FormGroup;
+  searchText: string = '';
   showForm: boolean = false;
   pokemonsList: PokemonModel[];
+  pokemonListAux: PokemonModel[];
 
   constructor(
     private dataService: DataService,
     private router: Router
   ){
-    this.pokemonsList = [];
-
     // Escuchando cambios en la ruta, para enviar a actualizar la data
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.getPokemonsList();
       }
     });
-  
   }
 
   ngOnInit(): void {
     this.getPokemonsList();
-    this.search = new FormGroup({
+    this.searchForm = new FormGroup({
       searchText: new FormControl('')
+    });
+
+    // Subscibir a cambios en el input de busqueda
+    this.searchForm.valueChanges.subscribe((selectedValue) => {
+      this.searchText = selectedValue.searchText;
+      if (this.searchText.length > 0){
+        this.searchPokemon();
+      } else {
+        this.pokemonsList = this.pokemonListAux;
+      }
     });
   }
 
   getPokemonsList(){
-    this.dataService.getPokemonsList().subscribe((data : PokemonModel[]) => {
-      this.pokemonsList = data;
-    });
+    this.dataService.getPokemonsList().subscribe({
+      next: (data: PokemonModel[]) => {
+        if (data.length > 0){
+          this.pokemonsList = data;
 
+          // Guardar respaldo del arreglo original, 
+          this.pokemonListAux = data;
+        } else {
+          window.alert('No existen registros');
+        }
+      }, error: (err: any) => {
+        window.alert('¡Ocurrió un error, vuelva a intentarlo!')
+      }
+    });
   }
 
-  keyEvent(event:any) {
-    console.log(event, event.keyCode, event.keyIdentifier);
+  searchPokemon() {
+    // Setear a vacio
+    this.pokemonsList = [];
+
+    // Recorrer el arreglo aux y push elementos con coincidencia en el arreglo original
+    this.pokemonListAux.filter((pokemon) => {
+      if (pokemon.name.toLowerCase().indexOf(this.searchText.toLowerCase()) > -1) {
+        this.pokemonsList.push(pokemon);
+      };
+    })
   }
 }

@@ -57,7 +57,8 @@ export class EditPokemonComponent implements OnInit, OnDestroy {
   updatePokemon() {
     const updatePokemon: RequestUpdatePokemon = {
       ...this.updatePokemonForm.value
-    }
+    };
+
     this.dataService.updatePokemon(this.pokemonId, updatePokemon).subscribe({
       next: (data) => {
         // eliminado

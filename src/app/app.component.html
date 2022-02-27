@@ -12,9 +12,9 @@
 
   <!-- Search section -->
   <div class="card-container">
-    <div [formGroup]="search">
+    <div [formGroup]="searchForm">
       <label>
-        <input type="text" formControlName="searchText" (keypress)="keyEvent($event)" placeholder="Buscar"/> 
+        <input type="text" formControlName="searchText" placeholder="Buscar"/> 
       </label>
     </div>
     <div class="spacer"></div>
