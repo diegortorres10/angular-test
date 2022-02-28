@@ -62,11 +62,11 @@ input[type=text] {
 @media screen and (max-width: 580px) {
     .row {
         padding: 14px 0 7px;
-        display: block;
+        // display: block;
     }
     .row.header {
         padding: 0;
-        height: 6px;
+        // height: 6px;
     } 
     .row.header.cell {
         display: none;
@@ -87,7 +87,7 @@ input[type=text] {
     }
     .cell {
         padding: 2px 16px;
-        display: block;
+        // display: block;
     }
 }
 

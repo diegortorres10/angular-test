@@ -25,8 +25,8 @@ export class CreatePokemonComponent implements OnInit {
     this.newPokemonForm = this.formBuilder.group({
       name: ['', [Validators.required]],
       image: ['', [Validators.required]],
-      attack: ['', [Validators.required, Validators.min(0), Validators.max(100)]],
-      defense: ['', [Validators.required, Validators.min(0), Validators.max(100)]]
+      attack: [0, [Validators.required, Validators.min(0), Validators.max(100)]],
+      defense: [0, [Validators.required, Validators.min(0), Validators.max(100)]]
     })
   }
 

@@ -30,11 +30,17 @@
       </div>
       <div class="col">
         <label>
-          <span>Ataque:</span>
-          <input
+          <span>Ataque:</span><span>{{updatePokemonForm.get('attack').value}}</span>
+          <div class="slidecontainer">
+            <input type="range" 
+              min="0" max="100"
+              class="slider"
+              formControlName="attack">
+          </div>
+          <!-- <input
             type="text"
             placeholder="Valor entre 0 - 100"
-            formControlName="attack" min="0" max="100">
+            formControlName="attack" min="0" max="100"> -->
         </label>
         <div *ngIf="updatePokemonForm.get('attack').hasError('required')" class="alert alert-danger form-danger" role="alert">
           *Campo obligatorio
@@ -46,11 +52,18 @@
           *El valor permitido debe ser igual o menor a 100
         </div>
         <label>
-          <span>Defensa:</span>
-          <input
+          <span>Defensa:</span><span>{{updatePokemonForm.get('defense').value}}</span>
+          <div class="slidecontainer">
+            <input type="range"
+              min="0"
+              max="100"
+              class="slider"
+              formControlName="defense">
+          </div>
+          <!-- <input
             type="text"
             placeholder="Valor entre 0 - 100"
-            formControlName="defense" min="0" max="100">
+            formControlName="defense" min="0" max="100"> -->
         </label>
         <div *ngIf="updatePokemonForm.get('defense').hasError('required')" class="alert alert-danger form-danger" role="alert">
           *Campo obligatorio
